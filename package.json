@@ -8,7 +8,10 @@
     "dev": "nodemon --exec npm run babel-node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/app.js",
-    "build": "./node_modules/.bin/babel src --out-dir dist --copy-files --source-maps"
+    "build": "./node_modules/.bin/babel src --out-dir dist --copy-files --source-maps",
+    "migrate:gen": "sequelize migration:generate --name",
+    "migrate": "sequelize db:migrate && echo 'Migraciones aplicadas correctamente'",
+    "migrate:down": "sequelize db:migrate:down"
   },
   "keywords": [],
   "author": "",
