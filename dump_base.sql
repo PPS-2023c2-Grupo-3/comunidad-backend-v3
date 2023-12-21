@@ -193,8 +193,6 @@ CREATE TABLE public.carreras (
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
 );
-
-
 --
 -- Name: carreras_id_carrera_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
@@ -377,13 +375,11 @@ CREATE SEQUENCE public.estado_postulantes_id_estado_seq
     NO MAXVALUE
     CACHE 1;
 
-
 --
 -- Name: estado_postulantes_id_estado_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.estado_postulantes_id_estado_seq OWNED BY public.estado_postulantes.id;
-
 
 --
 -- Name: estudios; Type: TABLE; Schema: public; Owner: -
@@ -1090,14 +1086,12 @@ addConstrait_idiomas_postulantes-niveles_idiomas.js
 addConstrait_idiomas_postulantes-postulantes.js
 \.
 
-
 --
 -- Data for Name: abm; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.abm (id_abm_usuario, fk_id_usuario, id_usuario_mod, motivo, "createdAt", "updatedAt") FROM stdin;
 \.
-
 
 --
 -- Data for Name: aptitudes; Type: TABLE DATA; Schema: public; Owner: -

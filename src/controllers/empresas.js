@@ -297,7 +297,7 @@ export const updateEmpresa = async (req, res) => {
       .then(() => res.sendStatus(200)
       )
       .catch((error) => {
-        if (error == "SequelizeUniqueConstraintError: Validation error") {
+        if (error === "SequelizeUniqueConstraintError: Validation error") {
           res
             .status(400)
             .send("Bad request: Algun tipo de error de validacion de campos");

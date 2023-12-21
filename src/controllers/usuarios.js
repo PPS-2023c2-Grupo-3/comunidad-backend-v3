@@ -35,7 +35,7 @@ export const signUp = async (req, res) => {
       .then((usuarios) => res.status(201).send({ id: usuarios.id }))
       .catch((error) => {
         //El usuario es unico y esta definido en el modelo
-        if (error == "SequelizeUniqueConstraintError: Validation error") {
+        if (error === "SequelizeUniqueConstraintError: Validation error") {
           res.status(402).send("Bad request: el usuario ya existe");
         } else {
           res.sendStatus(400);
