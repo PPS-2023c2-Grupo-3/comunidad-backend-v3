@@ -51,7 +51,7 @@ jobs:
           services: ${{ secrets.RENDER_SERVICES }}
           token: ${{ secrets.RENDER_TOKEN }}
 
-  docker:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -64,9 +64,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker Images
+      - name: Build and push API Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./path-to-your-api-Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_IMAGE_TAG }}
+          tags: ${{ secrets.API_DOCKER_IMAGE_TAG }}
+
+      - name: Build and push DB Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./path-to-your-db-Dockerfile
+          push: true
+          tags: ${{ secrets.DB_DOCKER_IMAGE_TAG }}
