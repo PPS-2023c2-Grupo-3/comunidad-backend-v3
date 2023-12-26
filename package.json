@@ -2,6 +2,7 @@
   "name": "comunidad-backend",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "babel-node": "babel-node src/app.js",
