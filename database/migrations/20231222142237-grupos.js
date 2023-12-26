@@ -1,6 +1,7 @@
 'use strict';
 
 const {DataTypes} = require("sequelize");
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
     /**
@@ -9,19 +10,22 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    return queryInterface.createTable('abm', {
+    return queryInterface.createTable('grupos',{
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      fk_id_usuario: DataTypes.INTEGER,
-      id_usuario_mod: DataTypes.INTEGER,
-      motivo: DataTypes.STRING
+      descripcion: DataTypes.STRING
     })
   },
 
   async down (queryInterface, Sequelize) {
-   return queryInterface.dropTable('abm')
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
   }
 };

@@ -20,7 +20,11 @@ SET row_security = off;
 -- Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
-CREATE SCHEMA public;
+DO $$ BEGIN
+    CREATE SCHEMA public;
+EXCEPTION WHEN DUPLICATE_SCHEMA THEN
+    -- No hagas nada, el esquema ya existe
+END $$;
 
 
 --
