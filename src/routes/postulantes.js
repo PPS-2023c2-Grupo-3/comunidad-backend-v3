@@ -5,7 +5,14 @@ import {
   getPorIdUsuario,
   postPostulante,
   deletePostulante,
-  updatePostulante
+  updatePostulante,
+  agregarPreferencias,
+  eliminarPreferencias,
+  agregarAptitudes,
+  eliminarAptitudes,
+  agregarIdiomas,
+  eliminarIdioma,
+  postulantesBaseUnahur
 } from '../controllers/postulantes';
 import { withErrorHandling } from './utils';
 
@@ -14,7 +21,14 @@ const router = express.Router();
 router.post('/', withErrorHandling(postPostulante));
 router.get('/', withErrorHandling(getConFiltros))
       .get('/idUsuario/:id', withErrorHandling(getPorIdUsuario)) 
-      .get('/dni/:id', withErrorHandling(getPorId));
+      .get('/dni/:id', withErrorHandling(getPorId))
+      .get('/baseConstante', withErrorHandling(postulantesBaseUnahur));
+router.post('/preferencias/:id', withErrorHandling(agregarPreferencias));
+router.post('/idiomas/:id', withErrorHandling(agregarIdiomas));
+router.delete('/idiomas/:id', withErrorHandling(eliminarIdioma));
+router.delete('/preferencias/:id', withErrorHandling(eliminarPreferencias));
+router.post('/aptitudes/:id', withErrorHandling(agregarAptitudes));
+router.delete('/aptitudes/:id', withErrorHandling(eliminarAptitudes));
 router.put('/dni/:id', withErrorHandling(updatePostulante));
 router.delete('/dni/:id', withErrorHandling(deletePostulante));
 

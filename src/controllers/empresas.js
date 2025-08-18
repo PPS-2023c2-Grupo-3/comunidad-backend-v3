@@ -1,5 +1,6 @@
 const models = require("../../database/models");
 const { Op: sequelize } = require("sequelize");
+const sendEmail = require("../../database/utils/sendEmail.js");
 
 export const getConFiltros = async (req, res) => {
   let paginaComoNumero = Number.parseInt(req.query.pagina);
@@ -226,8 +227,22 @@ export const deleteEmpresa = async (req, res) => {
   });
 };
 
+export const findUsuarioPorId = async (idUsuario) => {
+  try {
+    const user = await models.usuarios.findAndCountAll({
+      where: { id: idUsuario },
+    });
+
+    return user ? user : false;
+  } catch (error) {
+    console.error(`Error al buscar usuario: ${error}`);
+    return ;
+  }
+};
+
 export const postEmpresa = async (req, res) => {
-  models.empresas
+  try{
+  const empresa = await models.empresas
     .create({
       id:  req.body.cuit,
       fk_id_usuario: req.body.idUsuario,     
@@ -249,17 +264,33 @@ export const postEmpresa = async (req, res) => {
       email_representante: req.body.emailRepresentante,  
       logo: "logo.jpg" 
     })
-    .then(
-      (empresas) => res.status(201).send({ id: empresas.id }))
+  
+    const user = await findUsuarioPorId(empresa.fk_id_usuario);
 
-    .catch((error) => {
+    if (user) {
+      await sendEmail(
+      user.rows[0]?.dataValues?.usuario, 
+      "Bienvenido a Comunidad UNAHUR",
+      {
+        nombre: empresa.nombre_representante,
+        nombreEmpresa: empresa.nombre_empresa,
+      },
+      '../../database/utils/template/welcomeEmpresa.handlebars'
+      );
+    } else {
+      console.error("No se encontró el usuario o la propiedad 'usuario' está indefinida.");
+    }
+    
+    res.status(201).send({ id: empresa.id })
+
+    } catch(error) {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
         res.status(401).send("Bad request: Algun tipo de error de validacion de campos");
       } else {
         console.log(`Error al intentar insertar en la base de datos: ${error}`);
         res.sendStatus(500);
       }
-    });
+    };
 };
 
 export const updateEmpresa = async (req, res) => {
@@ -311,19 +342,38 @@ export const updateEmpresa = async (req, res) => {
 
 //Con esto cambiamos el estado de una empresa desde administrador.
 export const patchEmpresa = async (req, res) => {
-  const onSuccess = (empresas) =>
-  empresas
-      .update(
-        {          
+  const onSuccess = async (empresas) => {
+    try {
+      await empresas.update(
+        {
           estado: "Activo",
         },
         { fields: ["estado"] }
-      ).then(() => res.sendStatus(200),
-      changeGroup(empresas.fk_id_usuario),
-      console.log(empresas.fk_id_usuario)
-      ).catch((error) => {res.status(400)});
+      );
 
-      findEmpresas(req.params.id, {
+      if (empresas) {
+        await sendEmail(
+        empresas.dataValues?.Usuario?.dataValues?.usuario, 
+        "Activación de cuenta",
+        {
+          nombre: empresas.dataValues?.nombre_representante ,
+        },
+        '../../database/utils/template/activacionDeLaEmpresa.handlebars'
+        );
+      } else {
+        console.error("No se encontró el usuario o la propiedad 'usuario' está indefinida.");
+      };
+
+      res.sendStatus(200);
+
+      changeGroup(empresas.fk_id_usuario);
+      console.log(empresas.fk_id_usuario);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  };
+
+  findEmpresas(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500),

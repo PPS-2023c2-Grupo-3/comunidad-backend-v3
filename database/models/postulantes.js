@@ -40,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: "fk_id_ciudad", // campo con el que voy a igualar
           }
         );
+        postulantes.hasMany(models.postulaciones, {
+          foreignKey: "fk_id_postulante",
+          as: "Postulaciones",
+        });
         postulantes.hasMany(models.aptitudes_postulantes, {
           foreignKey: "fk_id_usuario",
           as: "Aptitudes",
@@ -47,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
         postulantes.hasMany(models.idiomas_postulantes, {
           foreignKey: "fk_id_postulante",
           as: "Idiomas",
+        });
+        postulantes.hasMany(models.preferencias_postulantes, {
+          foreignKey: "fk_id_postulante",
+          as: "Preferencias",
         });
     }
   }
@@ -59,6 +67,8 @@ module.exports = (sequelize, DataTypes) => {
       estado: DataTypes.STRING,
       nombre: DataTypes.STRING,
       apellido: DataTypes.STRING,
+      genero: DataTypes.STRING,
+      discapacidad: DataTypes.STRING,
       nacionalidad: DataTypes.STRING,
       fecha_nac: DataTypes.DATE,
       pais: DataTypes.STRING,
@@ -70,11 +80,14 @@ module.exports = (sequelize, DataTypes) => {
       depto: DataTypes.STRING,
       cp: DataTypes.STRING,
       telefono: DataTypes.INTEGER,
+      segundoTelefono: DataTypes.INTEGER,
       cant_materias: DataTypes.INTEGER,
       alumno_unahur: DataTypes.BOOLEAN,
-      presentacion: DataTypes.STRING,
+      presentacion: DataTypes.TEXT,
       cv: DataTypes.TEXT,
       foto: DataTypes.TEXT,
+      linkedIn: DataTypes.TEXT,
+      portfolio: DataTypes.TEXT,
     },
     {
       sequelize,

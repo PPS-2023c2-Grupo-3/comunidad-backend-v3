@@ -46,6 +46,12 @@ module.exports = (sequelize, DataTypes) => {
           as: 'Idiomas',
           foreignKey: 'fk_id_oferta',
       }// modelo al que pertenece
+      ),
+      ofertas.hasMany(models.preferencias_ofertas,
+        {
+          as: 'Preferencias',
+          foreignKey: 'fk_id_ofertas',
+      }// modelo al que pertenece
       )
             
    ///////////
@@ -58,12 +64,16 @@ module.exports = (sequelize, DataTypes) => {
     fk_id_estudio: DataTypes.INTEGER,
     fk_id_carrera: DataTypes.INTEGER,
     estado: DataTypes.STRING,
+    cierre: DataTypes.TEXT,
+    check: DataTypes.TEXT,
+    modalidadDeTrabajo: DataTypes.STRING,
+    tareasARealizar: DataTypes.TEXT,
+    genero: DataTypes.STRING,
     fecha_vigencia: DataTypes.DATE,
     titulo_oferta: DataTypes.STRING,
     descripcion: DataTypes.STRING,
     horario_laboral_desde: DataTypes.STRING,
     horario_laboral_hasta: DataTypes.STRING,
-    //modalidad_trabajo: DataTypes.STRING,
     edad_desde: DataTypes.INTEGER,
     edad_hasta: DataTypes.INTEGER,
     experiencia_previa_desc: DataTypes.STRING,

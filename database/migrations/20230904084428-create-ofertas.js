@@ -17,6 +17,21 @@ module.exports = {
       estado:{
         type: Sequelize.STRING
       },
+      cierre:{
+        type: Sequelize.TEXT,
+      },
+      check:{
+        type: Sequelize.TEXT,
+      },
+      modalidadDeTrabajo:{
+        type: Sequelize.STRING,
+      },
+      tareasARealizar:{
+        type: Sequelize.TEXT,
+      },
+      genero:{ 
+        type: Sequelize.STRING
+      },
       descripcion: {
         type: Sequelize.TEXT
       },

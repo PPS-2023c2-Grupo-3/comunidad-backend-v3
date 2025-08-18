@@ -9,13 +9,17 @@ import {
   updatePostulaciones,
   activarPostulante,
   getPorIdOfertaTodas,
-  marcarContactado
+  marcarContactado,
+  desactivarPostulacion,
+  postularseBaseUnahur,
+  marcarNoContactado
 } from '../controllers/postulaciones';
 import { withErrorHandling } from './utils';
 
 const router = express.Router();
 
 router.post('/', withErrorHandling(postPostulaciones));
+router.post('/baseConstante/:id', withErrorHandling(postularseBaseUnahur));
 router.get('/todas/', withErrorHandling(getConFiltros))
       .get('/:id', withErrorHandling(getPorId))
       .get('/oferta/:id', withErrorHandling(getPorIdOferta))
@@ -23,7 +27,9 @@ router.get('/todas/', withErrorHandling(getConFiltros))
 router.get('/ofertatodas/:id', withErrorHandling(getPorIdOfertaTodas));
 router.put('/:id', withErrorHandling(updatePostulaciones));
 router.put('/activar/:id', withErrorHandling(activarPostulante));
+router.put('/desactivar/:id', withErrorHandling(desactivarPostulacion));
 router.put('/contactado/:id', withErrorHandling(marcarContactado));
+router.put('/noContactado/:id', withErrorHandling(marcarNoContactado));
 router.delete('/:id', withErrorHandling(deletePostulacion));
 
 export default router;
